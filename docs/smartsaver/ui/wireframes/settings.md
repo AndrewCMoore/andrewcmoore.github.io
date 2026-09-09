@@ -7,17 +7,13 @@
 [US avg] [Custom]
 
 ### Manual overrides
-Fuel price
+Fuel price ($ CAD)
 
-[____]{type:number}
+[____]{type:number value:1.50}
 
-Efficiency
+Efficiency (L/100km)
 
-[____]{type:number}
-
-Value of time
-
-[____]{type:number}
+[____]{type:number value:8.0}
 
 ### Rewards
 [+ Add a rewards program]
