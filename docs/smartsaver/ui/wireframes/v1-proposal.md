@@ -38,7 +38,10 @@ Responsive (already in `app.css`, unchanged by this proposal):
 SmartSaver &nbsp;&nbsp;&nbsp; [≡]{.icon} [⚙]{.icon}
 
 **Trip · origin & stops**
-[Use my location]{.primary} [Search a place___________]
+[Use my location]{.primary}
+
+[Search a place__________]
+
 - [ ] Stop 1
 - [ ] Stop 2
 
@@ -56,39 +59,43 @@ Full-bleed map, route line + stop pins. No panel content here.
 
 ## Grocery List overlay
 
-```
-[‹]  Weekly list                              [Edit]
-[Filter items________________________________]
+[‹]{.icon} Weekly list [Edit]{.primary}
+[Filter items_________________________]
 
-PRODUCE
-[ ] Bananas                              [-15%]
-[x] Spinach
-[ ] Avocado                               [-20%]
+### Produce
+- [ ] Bananas [-15%]{.chip}
+- [x] Spinach
+- [ ] Avocado [-20%]{.chip}
 
-DAIRY & EGGS
-[x] Milk
-[ ] Eggs
-```
+### Dairy & eggs
+- [x] Milk
+- [ ] Eggs
 
 ## Settings overlay
 
-```
-[‹]  Settings
+[‹]{.icon} Settings
 
-VEHICLE
+### Vehicle
 [Compact]{.primary} [Sedan] [Truck]
 
-REGION FUEL PRICE
+### Region fuel price
 [US avg] [Custom]
 
-MANUAL OVERRIDES
-Fuel price      [____]
-Efficiency      [____]
-Value of time   [____]
+### Manual overrides
+Fuel price
 
-REWARDS
+[____]{type:number}
+
+Efficiency
+
+[____]{type:number}
+
+Value of time
+
+[____]{type:number}
+
+### Rewards
 [+ Add a rewards program]
-```
 
 ## Screens
 
