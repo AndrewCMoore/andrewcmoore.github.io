@@ -9,8 +9,9 @@ no router needed, the same `ge-overlay` pattern the code already uses (fixed,
 404px panel column on desktop ≥861px; full screen on mobile, per `app.css`).
 
 Wireframes below are [wiremd](https://wiremd.dev) — plain markdown, degrades
-to a readable spec even unrendered; open with the wiremd CLI/VS Code
-extension for a rendered mockup.
+to a readable spec even unrendered. **[Rendered mockup →](./v1-proposal.render.html)**
+(static HTML, generated with `wiremd v1-proposal.md --style wireframe`;
+regenerate after editing this file rather than hand-editing the HTML).
 
 ## Structure
 

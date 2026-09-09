@@ -177,10 +177,12 @@ function renderList(filter) {
 }
 
 // Markdown image/link targets are written relative to the doc's own folder
-// (e.g. "./v1-structure.jpg"); resolve them against the doc's raw-content
-// URL so they load regardless of where the doc sits under docs/.
+// (e.g. "./v1-structure.jpg" or "./v1-proposal.render.html"); resolve them
+// against the doc's Pages URL (not raw.githubusercontent.com — that serves
+// .html as raw text, not rendered) so both images and links to other pages
+// work regardless of where the doc sits under docs/.
 function resolveRelativeUrls(root, docDir) {
-  const base = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${DIR}/${docDir ? docDir + "/" : ""}`;
+  const base = `${location.origin}/${DIR}/${docDir ? docDir + "/" : ""}`;
   root.querySelectorAll("img[src], a[href]").forEach(el => {
     const attr = el.tagName === "IMG" ? "src" : "href";
     const val = el.getAttribute(attr);
