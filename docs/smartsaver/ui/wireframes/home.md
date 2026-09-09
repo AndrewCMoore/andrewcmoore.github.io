@@ -1,3 +1,7 @@
+Schematic only — wiremd's grid renders equal-width columns. The real
+layout is a fixed 404px Panel beside a flexible, much wider Map (`.app {
+grid-template-columns: 404px 1fr }` in `app.css`).
+
 ::: grid-2
 
 ### Panel
