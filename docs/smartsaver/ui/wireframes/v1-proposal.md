@@ -1,18 +1,5 @@
 # SmartSaver — front-end structure proposal (v1)
 
-Today `App.tsx` stacks every panel section into one long scroll, and two
-screens that are already built — `GroceryListEditor.tsx` and
-`SettingsScreen.tsx` — aren't wired to anything (no button opens them). This
-is a v1 proposal for the structure: a small header nav, panel sections
-grouped instead of flat-stacked, and those two screens reached as overlays —
-no router needed, the same `ge-overlay` pattern the code already uses (fixed,
-404px panel column on desktop ≥861px; full screen on mobile, per `app.css`).
-
-Wireframes below are [wiremd](https://wiremd.dev) — plain markdown, degrades
-to a readable spec even unrendered. **[Rendered mockup →](./v1-proposal.render.html)**
-(static HTML, generated with `wiremd v1-proposal.md --style wireframe`;
-regenerate after editing this file rather than hand-editing the HTML).
-
 ## Structure
 
 Planner stays home. A list icon and a gear icon in the header open the
@@ -52,8 +39,20 @@ SmartSaver &nbsp;&nbsp;&nbsp; [≡]{.icon} [⚙]{.icon}
 Net benefit +$0.00
 [Open in Maps]{.primary}
 
-### Map
-Full-bleed map, route line + stop pins. No panel content here.
+### Map & navigator
+Saving $12.40 on this trip
+
+(full-bleed map behind this — route polyline, origin + stop markers, grocer candidate pins)
+
+- [x] Round trip — include the drive back home
+
+**12.4 km** Distance
+**18 min** Est. time
+**$1.85** Fuel
+
+[Open in Google Maps]{.primary}
+
+[Apple Maps] [Waze]
 
 :::
 
