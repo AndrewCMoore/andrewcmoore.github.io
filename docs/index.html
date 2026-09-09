@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Andrew Moore — Docs</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<style>
+  :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #0f1115;
+    color: #e6e6e6;
+    display: flex;
+    min-height: 100vh;
+  }
+  nav {
+    width: 260px;
+    flex-shrink: 0;
+    background: #171a21;
+    border-right: 1px solid #2a2d35;
+    padding: 1.25rem 1rem;
+    overflow-y: auto;
+  }
+  nav a.home {
+    display: inline-block;
+    color: #9aa0ab;
+    text-decoration: none;
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+  }
+  nav a.home:hover { color: #5b8cff; }
+  nav h1 { font-size: 1rem; font-weight: 600; margin: 0 0 1rem; }
+  input#search {
+    width: 100%;
+    padding: 0.5rem 0.6rem;
+    margin-bottom: 0.75rem;
+    background: #0f1115;
+    border: 1px solid #2a2d35;
+    border-radius: 6px;
+    color: #e6e6e6;
+    font-size: 0.85rem;
+  }
+  input#search:focus { outline: none; border-color: #5b8cff; }
+  #doc-list { list-style: none; margin: 0; padding: 0; }
+  #doc-list li a {
+    display: block;
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    color: #c7cbd4;
+    text-decoration: none;
+    font-size: 0.88rem;
+    margin-bottom: 2px;
+  }
+  #doc-list li a:hover { background: #1e222b; color: #fff; }
+  #doc-list li a.active { background: #24304d; color: #7ea1ff; }
+  #status { color: #9aa0ab; font-size: 0.8rem; padding: 0.4rem 0.6rem; }
+  main {
+    flex: 1;
+    padding: 3rem 4rem;
+    max-width: 900px;
+    overflow-y: auto;
+  }
+  main h1, main h2, main h3 { font-weight: 600; }
+  main h1 { font-size: 1.8rem; border-bottom: 1px solid #2a2d35; padding-bottom: 0.5rem; }
+  main a { color: #7ea1ff; }
+  main code {
+    background: #171a21;
+    border: 1px solid #2a2d35;
+    border-radius: 4px;
+    padding: 0.1rem 0.35rem;
+    font-size: 0.85em;
+  }
+  main pre {
+    background: #171a21;
+    border: 1px solid #2a2d35;
+    border-radius: 8px;
+    padding: 1rem;
+    overflow-x: auto;
+  }
+  main pre code { background: none; border: none; padding: 0; }
+  main blockquote {
+    border-left: 3px solid #2a2d35;
+    margin-left: 0;
+    padding-left: 1rem;
+    color: #9aa0ab;
+  }
+  main table { border-collapse: collapse; width: 100%; }
+  main th, main td { border: 1px solid #2a2d35; padding: 0.4rem 0.6rem; text-align: left; }
+  @media (max-width: 700px) {
+    body { flex-direction: column; }
+    nav { width: 100%; border-right: none; border-bottom: 1px solid #2a2d35; }
+    main { padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+  <nav>
+    <a class="home" href="../">&larr; andrewcmoore.github.io</a>
+    <h1>Docs</h1>
+    <input id="search" type="text" placeholder="Filter...">
+    <ul id="doc-list"><li id="status">Loading...</li></ul>
+  </nav>
+  <main id="content">
+    <p style="color:#9aa0ab">Select a document.</p>
+  </main>
+
+<script>
+const OWNER = "andrewcmoore";
+const REPO = "andrewcmoore.github.io";
+const DIR = "docs";
+
+const listEl = document.getElementById("doc-list");
+const contentEl = document.getElementById("content");
+let files = [];
+
+function titleize(filename) {
+  return filename.replace(/\.md$/i, "").replace(/[-_]/g, " ")
+    .replace(/\b\w/g, c => c.toUpperCase());
+}
+
+function renderList(filter) {
+  listEl.innerHTML = "";
+  const f = (filter || "").toLowerCase();
+  files
+    .filter(file => titleize(file.name).toLowerCase().includes(f))
+    .forEach(file => {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = "#" + encodeURIComponent(file.name);
+      a.textContent = titleize(file.name);
+      a.dataset.name = file.name;
+      a.onclick = (e) => { e.preventDefault(); loadDoc(file); };
+      li.appendChild(a);
+      listEl.appendChild(li);
+    });
+}
+
+async function loadDoc(file, pushHash = true) {
+  document.querySelectorAll("#doc-list a").forEach(a =>
+    a.classList.toggle("active", a.dataset.name === file.name));
+  contentEl.innerHTML = "<p style='color:#9aa0ab'>Loading...</p>";
+  if (pushHash) location.hash = encodeURIComponent(file.name);
+  try {
+    const res = await fetch(file.download_url);
+    const md = await res.text();
+    contentEl.innerHTML = marked.parse(md);
+  } catch (err) {
+    contentEl.innerHTML = "<p style='color:#e06c75'>Failed to load document.</p>";
+  }
+}
+
+async function init() {
+  try {
+    const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${DIR}`);
+    if (!res.ok) throw new Error(res.status);
+    const data = await res.json();
+    files = data
+      .filter(f => f.type === "file" && f.name.toLowerCase().endsWith(".md"))
+      .sort((a, b) => a.name.localeCompare(b.name));
+
+    if (files.length === 0) {
+      listEl.innerHTML = "<li id='status'>No docs yet. Add a .md file to /docs.</li>";
+      return;
+    }
+
+    renderList();
+    document.getElementById("search").addEventListener("input", e => renderList(e.target.value));
+
+    const wanted = decodeURIComponent(location.hash.slice(1));
+    const initial = files.find(f => f.name === wanted) || files[0];
+    loadDoc(initial, false);
+  } catch (err) {
+    listEl.innerHTML = "<li id='status' style='color:#e06c75'>Couldn't load doc list (rate limited or offline).</li>";
+  }
+}
+
+init();
+</script>
+</body>
+</html>
