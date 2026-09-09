@@ -1,8 +1,10 @@
-Schematic only — wiremd's grid renders equal-width columns. The real
-layout is a fixed 404px Panel beside a flexible, much wider Map (`.app {
-grid-template-columns: 404px 1fr }` in `app.css`).
+Panel/Map proportions below match the real layout (`.app {
+grid-template-columns: 404px 1fr }` in `app.css`) — wiremd's grid is
+equal-width by default, so `render-home.mjs` patches that in after
+generating. Regenerate with `node render-home.mjs`, not the plain
+`wiremd` CLI (which would drop the patch).
 
-::: grid-2
+## Layout {.grid-2}
 
 ### Panel
 SmartSaver &nbsp;&nbsp;&nbsp; [≡]{.icon} [⚙]{.icon}
@@ -36,5 +38,3 @@ Saving $12.40 on this trip
 [Open in Google Maps]{.primary}
 
 [Apple Maps] [Waze]
-
-:::
