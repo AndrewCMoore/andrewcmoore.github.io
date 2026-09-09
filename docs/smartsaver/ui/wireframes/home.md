@@ -1,9 +1,3 @@
-Panel/Map proportions below match the real layout (`.app {
-grid-template-columns: 404px 1fr }` in `app.css`) — wiremd's grid is
-equal-width by default, so `render-home.mjs` patches that in after
-generating. Regenerate with `node render-home.mjs`, not the plain
-`wiremd` CLI (which would drop the patch).
-
 ## Layout {.grid-2}
 
 ### Panel
